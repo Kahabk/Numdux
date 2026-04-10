@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  # ── Numdux Streamlit UI ───────────────────────────────────────────────────
+  numdux:
+    build: .
+    container_name: numdux_app
+    ports:
+      - "8501:8501"
+    environment:
+      - NUMDUX_API_URL=http://api:8000
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - numdux_net
+
+  # ── NumDocsX FastAPI Backend ──────────────────────────────────────────────
+  api:
+    build: .
+    container_name: numdux_api
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - numdux_net
+
+  # ── Ollama (local LLM) ────────────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: numdux_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - numdux_net
+    # Uncomment for GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+networks:
+  numdux_net:
+    driver: bridge
+
+volumes:
+  ollama_models:

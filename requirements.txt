@@ -1,0 +1,36 @@
+# Numdux Requirements
+# Core
+streamlit>=1.35.0
+pandas>=2.0.0
+numpy>=1.24.0
+openpyxl>=3.1.0
+pyarrow>=14.0.0
+
+# Visualization
+plotly>=5.20.0
+altair>=5.0.0
+
+# AI / LLM
+litellm>=1.40.0
+langchain>=0.2.0
+langchain-community>=0.2.0
+langgraph>=0.1.0
+
+# ML
+scikit-learn>=1.4.0
+scipy>=1.12.0
+
+# API
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9
+
+# Reports
+markdown>=3.6
+
+# Optional (install separately for full features):
+# autogluon.tabular  -> pip install autogluon.tabular
+# shap               -> pip install shap
+# ydata-profiling    -> pip install ydata-profiling
+# weasyprint         -> pip install weasyprint
+# e2b                -> pip install e2b
